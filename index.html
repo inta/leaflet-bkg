@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<title>Leaflet using BKG tiles</title>
+		<style>
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			#map {
+				height: 100vh;
+			}
+		</style>
+		<!-- <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+		<script src="node_modules/leaflet/dist/leaflet.js"></script> -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+	</head>
+	<body>
+		<main>
+			<div id="map"></div>
+			<script>
+				const attribution = '© <a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie</a> '
+					+ new Date().getFullYear()
+					+ ', <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>';
+
+				const layers = {
+					'BKG Web': L.tileLayer.wms('http://sgx.geodatenzentrum.de/wms_topplus_web_open', {
+						layers: 'web',
+						format: 'image/png',
+						attribution: attribution,
+					}),
+					'BKG Web Grey': L.tileLayer.wms('http://sgx.geodatenzentrum.de/wms_topplus_web_open', {
+						layers: 'web_grau',
+						format: 'image/png',
+						attribution: attribution,
+					}),
+				};
+
+				const map = L.map('map', {
+					// center: [52.386894, 13.0297783],
+					// zoom: 13,
+					// layers: Object.values(layers),
+					layers: layers[Object.keys(layers)[0]],
+				});
+
+				L.control.layers(layers).addTo(map);
+
+				map.fitBounds([
+					[55.021882, 8.388270],
+					[51.274116, 15.037745],
+					[47.276621, 10.178354],
+					[51.046747, 5.881327],
+				]);
+				map.setZoom(map.getZoom() + 1);
+			</script>
+		</main>
+	</body>
+</html>
